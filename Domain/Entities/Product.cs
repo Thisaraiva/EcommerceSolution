@@ -1,0 +1,22 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Entities
+{
+    public class Product
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal Price { get; set; }
+        public string? ImageUrl { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? Created { get; set; } = DateTime.Now;
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+
+    }
+
+}
