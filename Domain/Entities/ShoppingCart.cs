@@ -2,10 +2,10 @@
 {
     public class ShoppingCart
     {
-        public int Id { get; set; }
-        public int CustomerId { get; set; }
+        public int ShoppingCartId { get; set; }
+        public string CustomerId { get; set; }
         public Customer Customer { get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-    }
 
+        public ICollection<ShoppingCartItem> ShoppingCartItems { get; set; } = new List<ShoppingCartItem>();
+    }
 }

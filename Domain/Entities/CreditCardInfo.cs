@@ -5,7 +5,7 @@ namespace Domain.Entities
     public class CreditCardInfo
     {
         [Key]
-        public int Id { get; set; }
+        public int CredtCardId { get; set; }
 
         [Required]
         public string? CardNumber { get; set; }
@@ -19,7 +19,7 @@ namespace Domain.Entities
         [Required]
         public string? CVV { get; set; }
 
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; }
         public Customer Customer { get; set; } 
     }
 }

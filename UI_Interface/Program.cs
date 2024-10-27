@@ -1,6 +1,11 @@
+using Application.Interfaces;
+using Application.Services;
+using Domain.Entities;
 using Infrastructure.Context;
 using Infrastructure.Extensions;
 using Infrastructure.Identity;
+using Infrastructure.Interfaces;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +21,16 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<EcommerceSolutionDbContext>();
+
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+//builder.Services.AddScoped<IProductService, ProductService>();
+//builder.Services.AddScoped<IOrderService, OrderService>();
+//builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+
+builder.Services.AddScoped<IRepository<Customer>, CustomerRepository>();
+//builder.Services.AddScoped<IProductRepository, ProductRepository>();
+//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+//builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Identity/Account/Login");
 

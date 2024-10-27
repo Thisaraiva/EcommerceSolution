@@ -1,11 +1,14 @@
-﻿namespace Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Entities
 {
     public class Employee
     {
-        public int EmployeeId { get; set; }
-        public string? ApplicationUserId { get; set; }
-        public string? Position { get; set; }
-        public DateTime HireDate { get; set; } = DateTime.UtcNow;
+        public string EmployeeId { get; set; }        
+        public int PositionId { get; set; }
+        public Position Position { get; set; }
+        public DateTime HireDate { get; set; } = DateTime.UtcNow;           
+
     }
 
 }

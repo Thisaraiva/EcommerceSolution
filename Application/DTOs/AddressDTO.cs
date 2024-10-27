@@ -1,10 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Application.DTOs
 {
-    public class Address
+    public class AddressDTO
     {
-        public string AddressId { get; set; }
+        public int AddressId { get; set; }
+
         [Required]
         public string Street { get; set; } = string.Empty;
 
@@ -27,8 +33,8 @@ namespace Domain.Entities
         [Required, DataType(DataType.PostalCode)]
         public string ZipCode { get; set; } = string.Empty;
 
+
         // Propriedade auxiliar para retornar o endereço completo.
         public string FullAddress => $"{Street}, {Number} - {Neighborhood}, {City} - {State}, {ZipCode}, {Country}";
-        
     }
 }

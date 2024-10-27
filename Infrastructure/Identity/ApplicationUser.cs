@@ -8,14 +8,14 @@ namespace Infrastructure.Identity
     {
         private string? _firstName;
         private string? _lastName;
-
+        [PersonalData]
         [Required, StringLength(50, MinimumLength = 3, ErrorMessage = "O {0} deve conter entre {2} e {1} caracteres.")]
         public string? FirstName
         {
             get => _firstName;
             set => _firstName = ToUpper(value);
         }
-
+        [PersonalData]
         [Required, StringLength(50, MinimumLength = 3, ErrorMessage = "O {0} deve conter entre {2} e {1} caracteres.")]
         public string? LastName
         {
@@ -24,22 +24,25 @@ namespace Infrastructure.Identity
         }
 
         public string FullName => $"{FirstName} {LastName}";
-
-        public int? CustomerId { get; set; }  // Referência ao Customer
+        [PersonalData]
         public Customer? Customer { get; set; }
-
-        public int? EmployeeId { get; set; }  // Referência ao Employee
+        [PersonalData]
         public Employee? Employee { get; set; }
-
+        [PersonalData]
         [Required]
         public ICollection<Address> Addresses { get; set; } = new HashSet<Address>();
-
+        [PersonalData]
         [Required, DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
-
+        [PersonalData]
         [DataType(DataType.DateTime)]
         public DateTime RegisterDate { get; private set; } = DateTime.UtcNow;
                 
         private static string? ToUpper(string? value) => value?.ToUpper();
+
+        public void AddAddress(Address address)
+        {
+            Addresses.Add(address);
+        }
     }
 }

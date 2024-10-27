@@ -5,7 +5,7 @@ namespace Domain.Entities
 {
     public class Product
     {
-        public int Id { get; set; }
+        public int ProductId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
@@ -14,6 +14,7 @@ namespace Domain.Entities
         [DataType(DataType.Date)]
         public DateTime? Created { get; set; } = DateTime.Now;
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public ICollection<ShoppingCartItem> ShoppingCartItems { get; set; } = new List<ShoppingCartItem>();
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 

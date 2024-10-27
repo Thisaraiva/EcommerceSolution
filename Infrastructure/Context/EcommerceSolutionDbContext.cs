@@ -19,31 +19,47 @@ namespace Infrastructure.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Position> Positions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+            // Relacionamento entre ApplicationUser e Address (via chave estrangeira)
+            builder.Entity<Address>()
+                .HasOne<ApplicationUser>()
+                .WithMany(u => u.Addresses)
+                .HasForeignKey(a => a.AddressId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             // Relacionamento entre Customer e ApplicationUser (via chave estrangeira)
             builder.Entity<Customer>()
                 .HasOne<ApplicationUser>()
                 .WithOne(u => u.Customer)
-                .HasForeignKey<Customer>(c => c.ApplicationUserId)
+                .HasForeignKey<Customer>(c => c.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Relacionamento entre Employee e ApplicationUser (via chave estrangeira)
             builder.Entity<Employee>()
                 .HasOne<ApplicationUser>()
                 .WithOne(u => u.Employee)
-                .HasForeignKey<Employee>(e => e.ApplicationUserId)
+                .HasForeignKey<Employee>(e => e.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configurar relação entre Employee e Position
+            builder.Entity<Employee>()
+                .HasOne(e => e.Position)
+                .WithMany(p => p.Employees)
+                .HasForeignKey(e => e.PositionId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Relacionamento entre CreditCardInfo e Customer
             builder.Entity<CreditCardInfo>()
-                .HasOne(c => c.Customer)
+                .HasOne(cc => cc.Customer)
                 .WithMany(c => c.CreditCards)
-                .HasForeignKey(c => c.CustomerId)
+                .HasForeignKey(cc => cc.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Configurar relação entre ShoppingCart e Customer
@@ -80,6 +96,20 @@ namespace Infrastructure.Context
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Configurar relação entre ShoppingCart e ShoppingCartItem
+            builder.Entity<ShoppingCartItem>()
+                .HasOne(sci => sci.ShoppingCart)
+                .WithMany(sc => sc.ShoppingCartItems)
+                .HasForeignKey(sci => sci.ShoppingCartId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configurar relação entre Product e ShoppingCartItem
+            builder.Entity<ShoppingCartItem>()
+                .HasOne(sci => sci.Product)
+                .WithMany(p => p.ShoppingCartItems)
+                .HasForeignKey(sci => sci.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
